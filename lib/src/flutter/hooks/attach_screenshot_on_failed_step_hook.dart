@@ -11,8 +11,7 @@ class AttachScreenshotOnFailedStepHook extends Hook {
     String step,
     StepResult stepResult,
   ) async {
-    if (stepResult.result !=null &&
-        (stepResult.result == StepExecutionResult.fail ||
+    if ((stepResult.result == StepExecutionResult.fail ||
         stepResult.result == StepExecutionResult.error ||
         stepResult.result == StepExecutionResult.timeout)) {
       try {
@@ -26,8 +25,10 @@ class AttachScreenshotOnFailedStepHook extends Hook {
 
   @protected
   Future<String> takeScreenshot(World world) async {
-    final bytes = await (world as FlutterWorld).driver!.screenshot();
-
-    return base64Encode(bytes);
+    if((world as FlutterWorld).driver != null) {
+      final bytes = await (world).driver!.screenshot();
+      return base64Encode(bytes);
+    }
+    return "";
   }
 }
