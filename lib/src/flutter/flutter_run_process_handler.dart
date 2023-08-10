@@ -230,7 +230,14 @@ class FlutterRunProcessHandler extends ProcessHandler {
         if (_logFlutterProcessOutput) {
           stdout.write(logLine);
         }
-        if (logLine.contains('127.0.0.1') && matcher.hasMatch(logLine)) {
+        var flag = false;
+        if(matcher==_observatoryDebuggerUriRegex){
+          flag = logLine.contains('127.0.0.1') && matcher.hasMatch(logLine);
+        }
+        else{
+          flag = matcher.hasMatch(logLine);
+        }
+        if (flag) {
           sub?.cancel();
           if (!completer.isCompleted) {
             completer.complete(matcher.firstMatch(logLine)?.group(1));
