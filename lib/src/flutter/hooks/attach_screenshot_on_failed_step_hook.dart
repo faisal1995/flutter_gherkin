@@ -11,9 +11,10 @@ class AttachScreenshotOnFailedStepHook extends Hook {
     String step,
     StepResult stepResult,
   ) async {
-    if (stepResult.result == StepExecutionResult.fail ||
+    if (stepResult.result !=null &&
+        (stepResult.result == StepExecutionResult.fail ||
         stepResult.result == StepExecutionResult.error ||
-        stepResult.result == StepExecutionResult.timeout) {
+        stepResult.result == StepExecutionResult.timeout)) {
       try {
         final screenshotData = await takeScreenshot(world);
         world.attach(screenshotData, 'image/png', step);
