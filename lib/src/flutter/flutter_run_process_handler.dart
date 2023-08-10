@@ -227,7 +227,6 @@ class FlutterRunProcessHandler extends ProcessHandler {
       },
     ).listen(
       (logLine) {
-        stdout.write(logLine);
         if (_logFlutterProcessOutput) {
           stdout.write(logLine);
         }
